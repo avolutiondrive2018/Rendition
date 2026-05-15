@@ -129,17 +129,17 @@
     <div id="generateImg">
         <img id="blah" src="#" alt="Background" />
 
-        <div id="modelContainer">
+        <!-- <div id="modelContainer">
 
             <model-viewer id="my3dmodel" src="models/led-display.glb" alt="3D LED" shadow-intensity="1" exposure="0.8"
                 camera-controls style="pointer-events:auto;">
-            </model-viewer>
+            </model-viewer> -->
 
-            <div class="corner-btn move-btn">
+        <!-- <div class="corner-btn move-btn">
                 ✋
-            </div>
+            </div> -->
 
-            <div class="corner-btn delete-btn" id="deleteBtn">
+        <!-- <div class="corner-btn delete-btn" id="deleteBtn">
                 ❌
             </div>
 
@@ -147,7 +147,7 @@
                 ↔
             </div>
 
-        </div>
+        </div> -->
     </div>
 
 
@@ -209,13 +209,13 @@
             });
 
             // Delete Model Logic
-            document.getElementById('deleteBtn').addEventListener('click', function () {
-                if (confirm("Are you sure you want to remove the 3D model?")) {
-                    const container = document.getElementById('modelContainer');
-                    container.remove();
-                    console.log("Model removed from workspace.");
-                }
-            });
+            // document.getElementById('deleteBtn').addEventListener('click', function () {
+            //     if (confirm("Are you sure you want to remove the 3D model?")) {
+            //         const container = document.getElementById('modelContainer');
+            //         container.remove();
+            //         console.log("Model removed from workspace.");
+            //     }
+            // });
 
             // Drag & Resize
             const modelContainer = document.getElementById('modelContainer');
@@ -254,51 +254,168 @@
             // ==================== FINAL RECOMMENDED VERSION ====================
 
 
+            // $("#gimg").off('click').on('click', async function (e) {
+            //     e.preventDefault();
+
+            //     const generateImg = document.getElementById('generateImg');
+            //     // FIX: Look for ALL models (static or spawned)
+            //     const activeModels = document.querySelectorAll('#modelContainer, .model-instance');
+
+            //     // Hide buttons for the photo
+            //     document.querySelectorAll('.corner-btn').forEach(el => el.style.display = 'none');
+
+            //     try {
+            //         const scale = 2;
+            //         const canvas = document.createElement('canvas');
+            //         const ctx = canvas.getContext('2d');
+            //         canvas.width = generateImg.offsetWidth * scale;
+            //         canvas.height = generateImg.offsetHeight * scale;
+
+            //         // 1. Draw Background
+            //         const bgImg = document.getElementById('blah');
+            //         if (bgImg.src && bgImg.src !== '#' && bgImg.src !== window.location.href) {
+            //             const bg = new Image();
+            //             await new Promise(r => { bg.onload = r; bg.src = bgImg.src; });
+            //             ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+            //         }
+
+            //         // 2. Draw Every Model on the screen
+            //         for (const modelGroup of activeModels) {
+            //             const viewer = modelGroup.querySelector('model-viewer');
+            //             if (!viewer) continue;
+
+            //             await viewer.updateComplete;
+            //             const modelDataURL = viewer.toDataURL('image/png');
+            //             const modelImg = new Image();
+            //             await new Promise(res => { modelImg.onload = res; modelImg.src = modelDataURL; });
+
+            //             const modelRect = modelGroup.getBoundingClientRect();
+            //             const genRect = generateImg.getBoundingClientRect();
+
+            //             ctx.drawImage(
+            //                 modelImg,
+            //                 (modelRect.left - genRect.left) * scale,
+            //                 (modelRect.top - genRect.top) * scale,
+            //                 modelRect.width * scale,
+            //                 modelRect.height * scale
+            //             );
+            //         }
+
+            //         // 3. Open Preview
+            //         const finalDataURL = canvas.toDataURL("image/png", 1.0);
+            //         const win = window.open("", "_blank");
+            //         win.document.write(`<img src="${finalDataURL}" style="max-width:100%;">`);
+
+            //     } catch (err) {
+            //         console.error(err);
+            //         alert("Capture failed - check console");
+            //     } finally {
+            //         document.querySelectorAll('.corner-btn').forEach(el => el.style.display = 'flex');
+            //     }
+            // });
+
+
+
             $("#gimg").off('click').on('click', async function (e) {
                 e.preventDefault();
 
                 const generateImg = document.getElementById('generateImg');
-                // FIX: Look for ALL models (static or spawned)
-                const activeModels = document.querySelectorAll('#modelContainer, .model-instance');
+                const activeModels = document.querySelectorAll('.model-instance');
 
-                // Hide buttons for the photo
-                document.querySelectorAll('.corner-btn').forEach(el => el.style.display = 'none');
+                // Hide buttons for a clean photo
+                $(".corner-btn").hide();
 
                 try {
-                    const scale = 2;
+                    const scale = 2; // Keep high resolution
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
+
+                    // Use the container's current size
+                    // const stageW = generateImg.offsetWidth;
+                    // const stageH = generateImg.offsetHeight;
+
+                    // canvas.width = stageW * scale;
+                    // canvas.height = stageH * scale;
                     canvas.width = generateImg.offsetWidth * scale;
                     canvas.height = generateImg.offsetHeight * scale;
 
                     // 1. Draw Background
                     const bgImg = document.getElementById('blah');
-                    if (bgImg.src && bgImg.src !== '#' && bgImg.src !== window.location.href) {
+                    if (bgImg.src && bgImg.src !== '#' && !bgImg.src.includes(window.location.host)) {
                         const bg = new Image();
                         await new Promise(r => { bg.onload = r; bg.src = bgImg.src; });
                         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
                     }
 
-                    // 2. Draw Every Model on the screen
+                    // 2. Draw Every Model (Corrected loop)
+                    // for (const modelGroup of activeModels) {
+                    //     const viewer = modelGroup.querySelector('model-viewer');
+                    //     if (!viewer) continue;
+
+
+                    //     // --- ADD THESE THREE LINES HERE ---
+                    //     const modelRect = modelGroup.getBoundingClientRect();
+                    //     const genRect = generateImg.getBoundingClientRect();
+
+                    //     viewer.style.width = modelRect.width + 'px';
+                    //     viewer.style.height = modelRect.height + 'px';
+                    //     await viewer.updateComplete;
+                    //     // ----------------------------------
+
+                    //     // Get the snapshot of the 3D model
+                    //     const modelDataURL = viewer.toDataURL('image/png');
+                    //     const modelImg = new Image();
+                    //     await new Promise(res => { modelImg.onload = res; modelImg.src = modelDataURL; });
+
+                    //     // IMPORTANT: Get the CURRENT dimensions of THIS specific model container
+                    //     // const modelRect = modelGroup.getBoundingClientRect();
+
+
+                    //     // Calculate relative positions and sizes
+                    //     const drawX = (modelRect.left - genRect.left) * scale;
+                    //     const drawY = (modelRect.top - genRect.top) * scale;
+                    //     const drawW = modelRect.width * scale;
+                    //     const drawH = modelRect.height * scale;
+
+                    //     // Draw specifically at the calculated size for this instance
+                    //     ctx.drawImage(modelImg, drawX, drawY, drawW, drawH);
+                    // }
                     for (const modelGroup of activeModels) {
                         const viewer = modelGroup.querySelector('model-viewer');
                         if (!viewer) continue;
 
+                        const modelRect = modelGroup.getBoundingClientRect();
+                        const genRect = generateImg.getBoundingClientRect();
+
+                        // Store original dimensions
+                        const originalWidth = viewer.style.width;
+                        const originalHeight = viewer.style.height;
+
+                        // Set temporary dimensions for screenshot
+                        viewer.style.width = modelRect.width + 'px';
+                        viewer.style.height = modelRect.height + 'px';
+
+                        // Wait for model to update
                         await viewer.updateComplete;
+
+                        // Small delay to ensure render is complete
+                        await new Promise(resolve => setTimeout(resolve, 50));
+
+                        // Get the snapshot of the 3D model
                         const modelDataURL = viewer.toDataURL('image/png');
                         const modelImg = new Image();
                         await new Promise(res => { modelImg.onload = res; modelImg.src = modelDataURL; });
 
-                        const modelRect = modelGroup.getBoundingClientRect();
-                        const genRect = generateImg.getBoundingClientRect();
+                        // Restore original dimensions
+                        viewer.style.width = originalWidth;
+                        viewer.style.height = originalHeight;
 
-                        ctx.drawImage(
-                            modelImg,
-                            (modelRect.left - genRect.left) * scale,
-                            (modelRect.top - genRect.top) * scale,
-                            modelRect.width * scale,
-                            modelRect.height * scale
-                        );
+                        const drawX = (modelRect.left - genRect.left) * scale;
+                        const drawY = (modelRect.top - genRect.top) * scale;
+                        const drawW = modelRect.width * scale;
+                        const drawH = modelRect.height * scale;
+
+                        ctx.drawImage(modelImg, drawX, drawY, drawW, drawH);
                     }
 
                     // 3. Open Preview
@@ -310,7 +427,7 @@
                     console.error(err);
                     alert("Capture failed - check console");
                 } finally {
-                    document.querySelectorAll('.corner-btn').forEach(el => el.style.display = 'flex');
+                    $(".corner-btn").show();
                 }
             });
 
@@ -398,13 +515,21 @@
             container.setAttribute('data-x', 50);
             container.setAttribute('data-y', 50);
 
+            // container.innerHTML = `
+            //     <model-viewer src="${modelPath}" alt="3D Model" shadow-intensity="1" exposure="0.8" 
+            //                 camera-controls style="width:100%; height:100%;"></model-viewer>
+            //     <div class="corner-btn move-btn">✋</div>
+            //     <div class="corner-btn delete-btn" onclick="this.parentElement.remove()">❌</div>
+            //     <div class="corner-btn resize-btn">↔</div>
+            // `;
+
             container.innerHTML = `
-        <model-viewer src="${modelPath}" alt="3D Model" shadow-intensity="1" exposure="0.8" 
-                      camera-controls style="width:100%; height:100%;"></model-viewer>
-        <div class="corner-btn move-btn">✋</div>
-        <div class="corner-btn delete-btn" onclick="this.parentElement.remove()">❌</div>
-        <div class="corner-btn resize-btn">↔</div>
-    `;
+    <model-viewer src="${modelPath}" alt="3D Model" shadow-intensity="1" exposure="0.8" 
+                camera-controls style="width:100%; height:100%;"></model-viewer>
+    <div class="corner-btn move-btn">✋</div>
+    <div class="corner-btn delete-btn" onclick="if(confirm('Remove this model?')) this.parentElement.remove()">❌</div>
+    <div class="corner-btn resize-btn">↔</div>
+`;
 
             document.getElementById('generateImg').appendChild(container);
 
@@ -427,6 +552,19 @@
                         }
                     }
                 })
+                // .resizable({
+                //     edges: { bottom: '.resize-btn', right: '.resize-btn' },
+                //     listeners: {
+                //         move(event) {
+                //             let x = parseFloat(event.target.dataset.x) || 0;
+                //             let y = parseFloat(event.target.dataset.y) || 0;
+                //             Object.assign(event.target.style, {
+                //                 width: `${event.rect.width}px`,
+                //                 height: `${event.rect.height}px`
+                //             });
+                //         }
+                //     }
+                // });
                 .resizable({
                     edges: { bottom: '.resize-btn', right: '.resize-btn' },
                     listeners: {
@@ -437,12 +575,14 @@
                                 width: `${event.rect.width}px`,
                                 height: `${event.rect.height}px`
                             });
+                            // Keep position stable while resizing
+                            event.target.style.transform = `translate(${x}px, ${y}px)`;
                         }
                     }
                 });
         }
         // Attach the button click
-        document.getElementById('addModelBtn').addEventListener('click', addNewModel);
+        // document.getElementById('addModelBtn').addEventListener('click', addNewModel);
     </script>
 
 </body>
