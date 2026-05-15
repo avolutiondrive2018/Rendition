@@ -129,7 +129,7 @@
     <div id="generateImg">
         <img id="blah" src="#" alt="Background" />
 
-        <!-- <div id="modelContainer">
+        <div id="modelContainer">
 
             <model-viewer id="my3dmodel" src="models/led-display.glb" alt="3D LED" shadow-intensity="1" exposure="0.8"
                 camera-controls style="pointer-events:auto;">
@@ -147,11 +147,11 @@
                 ↔
             </div>
 
-        </div> -->
+        </div>
     </div>
 
 
-    <!-- <script>
+    <script>
         // Background Upload
         function readURL(input) {
             if (input.files && input.files[0]) {
@@ -443,189 +443,8 @@
         }
         // Attach the button click
         document.getElementById('addModelBtn').addEventListener('click', addNewModel);
-    </script> -->
-    <script>
-
-        $(document).ready(function () {
-            // 1. Background Upload
-            document.getElementById('photoUpload').addEventListener('change', function () {
-                readURL(this);
-            });
-
-            // 2. Save Image Logic (The "Nothing Happens" Fix)
-            $("#gimg").off('click').on('click', async function (e) {
-                e.preventDefault();
-                const generateImg = document.getElementById('generateImg');
-                const activeModels = document.querySelectorAll('.model-instance, #modelContainer');
-
-                $(".corner-btn").hide();
-
-                try {
-                    const scale = 2;
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    canvas.width = generateImg.offsetWidth * scale;
-                    canvas.height = generateImg.offsetHeight * scale;
-
-                    // Draw Background
-                    const bgImg = document.getElementById('blah');
-                    if (bgImg.src && bgImg.src !== '#' && !bgImg.src.includes(window.location.host)) {
-                        const bg = new Image();
-                        await new Promise(r => { bg.onload = r; bg.src = bgImg.src; });
-                        ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
-                    }
-
-                    // Draw Models
-                    for (const modelGroup of activeModels) {
-                        const viewer = modelGroup.querySelector('model-viewer');
-                        if (!viewer) continue;
-
-                        await viewer.updateComplete;
-                        const modelImg = new Image();
-                        await new Promise(res => { modelImg.onload = res; modelImg.src = viewer.toDataURL('image/png'); });
-
-                        const modelRect = modelGroup.getBoundingClientRect();
-                        const genRect = generateImg.getBoundingClientRect();
-
-                        ctx.drawImage(
-                            modelImg,
-                            (modelRect.left - genRect.left) * scale,
-                            (modelRect.top - genRect.top) * scale,
-                            modelRect.width * scale,
-                            modelRect.height * scale
-                        );
-                    }
-
-                    const finalDataURL = canvas.toDataURL("image/png");
-                    const win = window.open("");
-                    win.document.write(`<img src="${finalDataURL}" style="max-width:100%;">`);
-
-                } catch (err) {
-                    console.error("Save Error:", err);
-                } finally {
-                    $(".corner-btn").show();
-                }
-            });
-
-            // 3. Safety Check for Original Model (only if it still exists)
-            const originalModel = document.getElementById('modelContainer');
-            if (originalModel) {
-                initInteract(originalModel);
-            }
-        });
-
-        // 4. Corrected Spawn Function
-        function spawnModel(modelPath) {
-            //highestZ++; // Increment for the new model
-            const container = document.createElement('div');
-            container.className = 'model-instance'; // Class for saving
-
-            // Copying your original styles
-            Object.assign(container.style, {
-                position: 'absolute',
-                width: '200px',
-                height: '200px',
-                //zIndex: highestZ,
-                transform: 'translate(80px, 80px)',
-                cursor: 'move',
-                boxShadow: '0 0 20px rgba(0, 0, 0, 0.4)'
-            });
-
-            container.setAttribute('data-x', 80);
-            container.setAttribute('data-y', 80);
-
-            container.innerHTML = `
-        <model-viewer src="${modelPath}" alt="3D Model" shadow-intensity="1" exposure="0.8" 
-                      camera-controls style="width:100%; height:100%;"></model-viewer>
-        <div class="corner-btn move-btn">✋</div>
-        <div class="corner-btn delete-btn" onclick="this.parentElement.remove()">❌</div>
-        <div class="corner-btn resize-btn">↔</div>
-    `;
-
-            document.getElementById('generateImg').appendChild(container);
-            initInteract(container); // Hook up movement
-        }
-
-        // 5. Reusable Interact Logic
-        function initInteract(element) {
-            // Bring to front on click
-            // element.addEventListener('mousedown', function () {
-            //     highestZ++;
-            //     element.style.zIndex = highestZ;
-            // });
-            interact(element)
-                .draggable({
-                    allowFrom: '.move-btn',
-                    // onstart: function (event) {
-                    //     highestZ++;
-                    //     event.target.style.zIndex = highestZ;
-                    // },
-                    listeners: {
-                        move(event) {
-                            let x = (parseFloat(element.getAttribute('data-x')) || 0) + event.dx;
-                            let y = (parseFloat(element.getAttribute('data-y')) || 0) + event.dy;
-                            element.style.transform = `translate(${x}px, ${y}px)`;
-                            element.setAttribute('data-x', x);
-                            element.setAttribute('data-y', y);
-                        }
-                    }
-                })
-                .resizable({
-                    edges: { bottom: '.resize-btn', right: '.resize-btn' },
-                    listeners: {
-                        move(event) {
-                            // highestZ++;
-                            // element.style.zIndex = highestZ;
-                            Object.assign(element.style, {
-                                width: `${event.rect.width}px`,
-                                height: `${event.rect.height}px`
-                            });
-                        }
-                    }
-                });
-        }
-
-        // Keep your background logic as is
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    const img = document.getElementById('blah');
-                    const container = document.getElementById('generateImg');
-
-                    img.src = e.target.result;
-
-                    img.onload = function () {
-                        // 1. Get the original file dimensions
-                        var realW = this.naturalWidth;
-                        var realH = this.naturalHeight;
-
-                        // 2. Calculate the aspect ratio (Width / Height)
-                        var ratio = realW / realH;
-
-                        // 3. Force height to 600px and calculate the proportional width
-                        var forcedHeight = 600;
-                        var calculatedWidth = 600 * ratio;
-
-                        // 4. Apply these to the container
-                        container.style.height = forcedHeight + "px";
-                        container.style.width = calculatedWidth + "px";
-
-                        // 5. Ensure the image fills this container completely
-                        img.style.width = "100%";
-                        img.style.height = "100%";
-
-                        console.log("Layout forced to 600px height. New width: " + calculatedWidth);
-
-                        // Re-center your 3D model
-                        resetModel();
-                    };
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
     </script>
+
 </body>
 
 </html>
