@@ -445,7 +445,6 @@
         document.getElementById('addModelBtn').addEventListener('click', addNewModel);
     </script> -->
     <script>
-        let highestZ = 100;
 
         $(document).ready(function () {
             // 1. Background Upload
@@ -517,7 +516,7 @@
 
         // 4. Corrected Spawn Function
         function spawnModel(modelPath) {
-            highestZ++; // Increment for the new model
+            //highestZ++; // Increment for the new model
             const container = document.createElement('div');
             container.className = 'model-instance'; // Class for saving
 
@@ -526,7 +525,7 @@
                 position: 'absolute',
                 width: '200px',
                 height: '200px',
-                zIndex: highestZ,
+                //zIndex: highestZ,
                 transform: 'translate(80px, 80px)',
                 cursor: 'move',
                 boxShadow: '0 0 20px rgba(0, 0, 0, 0.4)'
@@ -550,17 +549,17 @@
         // 5. Reusable Interact Logic
         function initInteract(element) {
             // Bring to front on click
-            element.addEventListener('mousedown', function () {
-                highestZ++;
-                element.style.zIndex = highestZ;
-            });
+            // element.addEventListener('mousedown', function () {
+            //     highestZ++;
+            //     element.style.zIndex = highestZ;
+            // });
             interact(element)
                 .draggable({
                     allowFrom: '.move-btn',
-                    onstart: function (event) {
-                        highestZ++;
-                        event.target.style.zIndex = highestZ;
-                    },
+                    // onstart: function (event) {
+                    //     highestZ++;
+                    //     event.target.style.zIndex = highestZ;
+                    // },
                     listeners: {
                         move(event) {
                             let x = (parseFloat(element.getAttribute('data-x')) || 0) + event.dx;
@@ -575,8 +574,8 @@
                     edges: { bottom: '.resize-btn', right: '.resize-btn' },
                     listeners: {
                         move(event) {
-                            highestZ++;
-                            element.style.zIndex = highestZ;
+                            // highestZ++;
+                            // element.style.zIndex = highestZ;
                             Object.assign(element.style, {
                                 width: `${event.rect.width}px`,
                                 height: `${event.rect.height}px`
