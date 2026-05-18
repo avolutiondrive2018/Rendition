@@ -16,8 +16,10 @@
     <div class="app-container">
         <!-- Sidebar Controls -->
         <aside class="sidebar">
-            <h1 class="logo">Rendition</h1>
-            <p class="subtitle">3D Scene Compositor</p>
+            <h1 class="logo">Rendition 3D</h1>
+            <button class="btn text-secondary" onclick="window.location.href='2d/index.html'">Switch to
+                2D</button>
+            <p class=" subtitle">3D Scene Compositor</p>
 
             <div class="control-group">
                 <label class="control-label">Background Image</label>
@@ -29,7 +31,7 @@
                 </div>
             </div>
 
-            <div class="control-group" id="modelsBox" style="display: none;">
+            <div class="control-group" id="modelsBox" style="display: flex;">
                 <label class="control-label">Add 3D Models</label>
                 <div class="models-grid">
                     <button class="btn-model" data-model="https://modelviewer.dev/shared-assets/models/Astronaut.glb">
@@ -38,24 +40,58 @@
                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QXN0cm9uYXV0PC90ZXh0Pjwvc3ZnPg=='" />
                         <span>Astronaut</span>
                     </button>
-                    <button class="btn-model"
-                        data-model="https://modelviewer.dev/shared-assets/models/RobotExpressive.glb">
-                        <img src="https://raw.githubusercontent.com/google/model-viewer/master/packages/shared-assets/models/RobotExpressive.png"
-                            alt="Robot"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Um9ib3Q8L3RleHQ+PC9zdmc+'" />
-                        <span>Robot</span>
-                    </button>
-                    <button class="btn-model" data-model="models/led-display.glb">
-                        <img src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/screenshot/screenshot.png"
-                            alt="Duck"
+                    <button class="btn-model" data-model="models/3_2.glb">
+                        <img src="image/led.png" alt="3_2"
                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>Duck</span>
+                        <span>3:2</span>
                     </button>
-                    <button class="btn-model" data-model="models/4x3.glb">
-                        <img src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/screenshot/screenshot.png"
-                            alt="4x3"
+                    <button class="btn-model" data-model="models/4_3.glb">
+                        <img src="image/led.png" alt="4_3"
                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>4x3</span>
+                        <span>4:3</span>
+                    </button>
+                    <button class="btn-model" data-model="models/5_4.glb">
+                        <img src="image/led.png" alt="5_4"
+                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
+                        <span>5:4</span>
+                    </button>
+                    <button class="btn-model" data-model="models/16_9.glb">
+                        <img src="image/led.png" alt="16_9"
+                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
+                        <span>16:9</span>
+                    </button>
+                    <button class="btn-model" data-model="models/16_10.glb">
+                        <img src="image/led.png" alt="16_10"
+                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
+                        <span>16:10</span>
+                    </button>
+                </div>
+                <label class="control-label">Seamless</label>
+                <div class="models-grid">
+                    <button class="btn-model" data-model="models/3_2_seamless.glb">
+                        <img src="image/led.png" alt="3_2"
+                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
+                        <span>3:2</span>
+                    </button>
+                    <button class="btn-model" data-model="models/4_3_seamless.glb">
+                        <img src="image/led.png" alt="4_3"
+                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
+                        <span>4:3</span>
+                    </button>
+                    <button class="btn-model" data-model="models/5_4_seamless.glb">
+                        <img src="image/led.png" alt="5_4"
+                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
+                        <span>5:4</span>
+                    </button>
+                    <button class="btn-model" data-model="models/16_9_seamless.glb">
+                        <img src="image/led.png" alt="16_9"
+                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
+                        <span>16:9</span>
+                    </button>
+                    <button class="btn-model" data-model="models/16_10_seamless.glb">
+                        <img src="image/led.png" alt="16_10"
+                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
+                        <span>16:10</span>
                     </button>
                 </div>
             </div>

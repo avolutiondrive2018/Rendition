@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rendition 2D Compositor</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar Controls -->
+        <aside class="sidebar">
+            <h1 class="logo">Rendition 2D</h1>
+            <button class="btn text-secondary" onclick="window.location.href='../index.html'">Switch to
+                3D</button>
+            <p class="subtitle">2D Warp Compositor</p>
+
+            <div class="control-group">
+                <label class="control-label">Background Image</label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="imageUpload" accept="image/*" />
+                    <button class="btn btn-primary" onclick="document.getElementById('imageUpload').click()">Upload
+                        Image</button>
+                    <p id="uploadStatus" class="status-text">No image selected</p>
+                </div>
+            </div>
+
+            <div class="control-group" id="modelsBox" style="display: none;">
+                <label class="control-label">Add 2D Shapes</label>
+                <div class="models-grid">
+                    <!-- Data values will hold width and height -->
+                    <button class="btn-model" data-width="300" data-height="200">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 3/2; background: linear-gradient(135deg, #f87171, #fb923c);"></div>
+                        <span>3:2</span>
+                    </button>
+                    <button class="btn-model" data-width="300" data-height="225">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 4/3; background: linear-gradient(135deg, #34d399, #10b981);"></div>
+                        <span>4:3</span>
+                    </button>
+                    <button class="btn-model" data-width="250" data-height="200">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 5/4; background: linear-gradient(135deg, #60a5fa, #3b82f6);"></div>
+                        <span>5:4</span>
+                    </button>
+                    <button class="btn-model" data-width="320" data-height="180">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 16/9; background: linear-gradient(135deg, #a78bfa, #8b5cf6);"></div>
+                        <span>16:9</span>
+                    </button>
+                    <button class="btn-model" data-width="320" data-height="200">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 16/10; background: linear-gradient(135deg, #f472b6, #db2777);"></div>
+                        <span>16:10</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="control-group action-group" id="actionsBox" style="display: none;">
+                <button class="btn btn-success" id="btnSaveImage">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                        <polyline points="7 3 7 8 15 8"></polyline>
+                    </svg>
+                    Capture & Save
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Canvas Area -->
+        <main class="workspace">
+            <div id="dropzone" class="dropzone empty">
+                <div class="dropzone-message">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)"
+                        stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                    <h2>Upload an image to start</h2>
+                    <p>Supported formats: JPG, PNG, WebP</p>
+                </div>
+                <div id="canvas" class="canvas-hidden">
+                    <img id="bgImg" src="" alt="Background" draggable="false" />
+                    <!-- 2D models will be injected here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image-more/3.1.6/dom-to-image-more.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
