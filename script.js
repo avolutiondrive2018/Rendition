@@ -9,6 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnSaveImage = document.getElementById('btnSaveImage');
 
     let activeWrapper = null;
+    let highestZIndex = 10;
+
+    function bringToFront(wrapper) {
+        highestZIndex++;
+        wrapper.style.zIndex = highestZIndex;
+    }
 
     // Handle Image Upload
     imageUpload.addEventListener('change', (e) => {
@@ -53,10 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Ensure only one active at a time initially
         document.querySelectorAll('.model-wrapper').forEach(w => w.classList.remove('active'));
+        bringToFront(wrapper);
 
         wrapper.addEventListener('mousedown', () => {
             document.querySelectorAll('.model-wrapper').forEach(w => w.classList.remove('active'));
             wrapper.classList.add('active');
+            bringToFront(wrapper);
         });
 
         // Model Viewer
@@ -107,7 +115,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const startLeft = wrapper.offsetLeft;
             const startTop = wrapper.offsetTop;
 
+            document.querySelectorAll('.model-wrapper').forEach(w => w.classList.remove('active'));
             wrapper.classList.add('active');
+            bringToFront(wrapper);
             e.stopPropagation();
             e.preventDefault();
 
@@ -134,7 +144,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const startY = e.clientY;
             const startScale = parseFloat(wrapper.dataset.scale) || 1;
 
+            document.querySelectorAll('.model-wrapper').forEach(w => w.classList.remove('active'));
             wrapper.classList.add('active');
+            bringToFront(wrapper);
             e.stopPropagation();
             e.preventDefault();
 
@@ -187,7 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 img.style.left = '0';
                 img.style.width = '100%';
                 img.style.height = '100%';
-                img.style.objectFit = 'contain';
                 img.style.pointerEvents = 'none';
 
                 mv.style.visibility = 'hidden';
