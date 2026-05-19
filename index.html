@@ -33,12 +33,17 @@
 
             <div class="control-group" id="modelsBox" style="display: flex;">
                 <label class="control-label">Add 3D Models</label>
-                <div class="models-grid">
+                <!-- <div class="models-grid">
                     <button class="btn-model" data-model="https://modelviewer.dev/shared-assets/models/Astronaut.glb">
                         <img src="https://raw.githubusercontent.com/google/model-viewer/master/packages/shared-assets/models/Astronaut.png"
                             alt="Astronaut"
                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QXN0cm9uYXV0PC90ZXh0Pjwvc3ZnPg=='" />
                         <span>Astronaut</span>
+                    </button>
+                    <button class="btn-model" data-model="models/1_1.glb">
+                        <img src="image/led.png" alt="1_1"
+                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
+                        <span>1:1</span>
                     </button>
                     <button class="btn-model" data-model="models/3_2.glb">
                         <img src="image/led.png" alt="3_2"
@@ -65,9 +70,14 @@
                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
                         <span>16:10</span>
                     </button>
-                </div>
-                <label class="control-label">Seamless</label>
+                </div> -->
+                <label class="control-label">Horizontal</label>
                 <div class="models-grid">
+                    <button class="btn-model" data-model="models/1_1.glb">
+                        <img src="image/led.png" alt="1_1"
+                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
+                        <span>1:1</span>
+                    </button>
                     <button class="btn-model" data-model="models/3_2_seamless.glb">
                         <img src="image/led.png" alt="3_2"
                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
@@ -94,10 +104,48 @@
                         <span>16:10</span>
                     </button>
                 </div>
+                <label class="control-label">Pole</label>
+                <div class="models-grid">
+                    <button class="btn-model" data-model="models/pole_1.glb">
+                        <img src="image/pole_1.png" alt=""
+                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
+                        <span>Pole</span>
+                    </button>
+                </div>
+                <label class="control-label">Vertical</label>
+                <div class="models-grid">
+                    <button class="btn-model" data-model="models/v2_3.glb">
+                        <img src="image/led-vertical.png" alt="v2_3"
+                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
+                        <span>2:3</span>
+                    </button>
+                    <button class="btn-model" data-model="models/v3_4.glb">
+                        <img src="image/led-vertical.png" alt="v3_4"
+                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
+                        <span>3:4</span>
+                    </button>
+                    <button class="btn-model" data-model="models/v4_5.glb">
+                        <img src="image/led-vertical.png" alt="v4_5"
+                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
+                        <span>4:5</span>
+                    </button>
+                    <button class="btn-model" data-model="models/v9_16.glb">
+                        <img src="image/led-vertical.png" alt="v9_16"
+                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
+                        <span>9:16</span>
+                    </button>
+                    <button class="btn-model" data-model="models/v10_16.glb">
+                        <img src="image/led-vertical.png" alt="v10_16"
+                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
+                        <span>10:16</span>
+                    </button>
+                </div>
             </div>
 
-            <div class="control-group action-group" id="actionsBox" style="display: none; flex-direction: column; gap: 12px;">
-                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-primary); font-size: 14px;">
+            <div class="control-group action-group" id="actionsBox"
+                style="display: none; flex-direction: column; gap: 12px;">
+                <label
+                    style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-primary); font-size: 14px;">
                     <input type="checkbox" id="addWatermark" style="width: 16px; height: 16px;">
                     Add Watermark
                 </label>

@@ -132,6 +132,29 @@ body {
     gap: 12px;
 }
 
+#modelsBox {
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+    padding-right: 4px;
+}
+
+/* Custom scrollbar for modelsBox */
+#modelsBox::-webkit-scrollbar {
+    width: 6px;
+}
+#modelsBox::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+#modelsBox::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+#modelsBox::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
 .btn-model {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border-color);

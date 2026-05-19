@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     canvas.classList.remove('canvas-hidden');
                     modelsBox.style.display = 'flex';
                     actionsBox.style.display = 'flex';
-                    
+
                     canvas.style.width = bgImg.offsetWidth + 'px';
                     canvas.style.height = bgImg.offsetHeight + 'px';
                 };
@@ -43,11 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
             const width = parseInt(btn.getAttribute('data-width'));
             const height = parseInt(btn.getAttribute('data-height'));
-            
+
             // For now, generate a colorful placeholder image based on the button's background
             const preview = btn.querySelector('.shape-preview');
             const bg = window.getComputedStyle(preview).background;
-            
+
             addShapeToCanvas(width, height, bg);
         });
     });
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function addShapeToCanvas(w, h, bgStyle) {
         const container = document.createElement('div');
         container.className = 'warp-container active';
-        
+
         bringToFront(container);
 
         // Container coordinates: center of canvas initially
@@ -102,10 +102,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Initial destination points are centered around 0,0 since container is centered
         let dstPts = [
-            { x: -w/2, y: -h/2 },
-            { x: w/2, y: -h/2 },
-            { x: w/2, y: h/2 },
-            { x: -w/2, y: h/2 }
+            { x: -w / 2, y: -h / 2 },
+            { x: w / 2, y: -h / 2 },
+            { x: w / 2, y: h / 2 },
+            { x: -w / 2, y: h / 2 }
         ];
 
         // Handles
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const startX = e.clientX;
             const startY = e.clientY;
-            
+
             // Current left/top
             const startLeft = parseFloat(container.style.left) || 0;
             const startTop = parseFloat(container.style.top) || 0;
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             btnMove.style.left = (sumX / 4) + 'px';
             btnMove.style.top = (sumY / 4 - 24) + 'px';
-            
+
             btnDelete.style.left = (sumX / 4) + 'px';
             btnDelete.style.top = (sumY / 4 + 24) + 'px';
         }
@@ -237,20 +237,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let h = solve(a, b);
         if (!h) return null;
-        
+
         // Matrix3d uses column-major order:
         return [
             h[0], h[3], 0, h[6],
             h[1], h[4], 0, h[7],
-             0  ,  0  , 1,  0  ,
-            h[2], h[5], 0,  1
+            0, 0, 1, 0,
+            h[2], h[5], 0, 1
         ];
     }
 
     function solve(A, b) {
         let n = A.length;
         for (let i = 0; i < n; i++) A[i].push(b[i]);
-        
+
         for (let i = 0; i < n; i++) {
             let maxEl = Math.abs(A[i][i]);
             let maxRow = i;
@@ -298,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isWatermarkChecked) {
                 const watermarkEl = document.createElement('img');
                 watermarkEl.id = 'temp-watermark';
-                watermarkEl.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iODAwIj48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjMpIiBmb250LXNpemU9IjEwMHB4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgdHJhbnNmb3JtPSJyb3RhdGUoLTQ1LCA0MDAsIDQwMCkiPldBVEVSTUFSSzwvdGV4dD48L3N2Zz4=';
+                watermarkEl.src = '../image/watermark.png';
                 watermarkEl.style.position = 'absolute';
                 watermarkEl.style.top = '0';
                 watermarkEl.style.left = '0';
@@ -318,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // High resolution screenshot
             const finalUrl = await domtoimage.toPng(canvas, {
                 quality: 1,
-                scale: 2 
+                scale: 2
             });
 
             const win = window.open();

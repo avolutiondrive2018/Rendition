@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     canvas.classList.remove('canvas-hidden');
                     modelsBox.style.display = 'flex';
                     actionsBox.style.display = 'flex';
-                    
+
                     canvas.style.width = bgImg.offsetWidth + 'px';
                     canvas.style.height = bgImg.offsetHeight + 'px';
                 };
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
             modelViewer.cameraOrbit = `${orbit.theta}rad ${orbit.phi}rad ${orbit.radius}m`;
         }
 
-        const rotStep = 0.15;
+        const rotStep = 0.1;
         btnUp.addEventListener('click', (e) => { e.stopPropagation(); rotateCamera(0, rotStep); });
         btnDown.addEventListener('click', (e) => { e.stopPropagation(); rotateCamera(0, -rotStep); });
         btnLeft.addEventListener('click', (e) => { e.stopPropagation(); rotateCamera(rotStep, 0); });
@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isWatermarkChecked) {
                 const watermarkEl = document.createElement('img');
                 watermarkEl.id = 'temp-watermark';
-                watermarkEl.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iODAwIj48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjMpIiBmb250LXNpemU9IjEwMHB4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgdHJhbnNmb3JtPSJyb3RhdGUoLTQ1LCA0MDAsIDQwMCkiPldBVEVSTUFSSzwvdGV4dD48L3N2Zz4=';
+                watermarkEl.src = 'image/watermark.png';
                 watermarkEl.style.position = 'absolute';
                 watermarkEl.style.top = '0';
                 watermarkEl.style.left = '0';
