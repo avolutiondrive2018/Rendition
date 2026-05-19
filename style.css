@@ -174,16 +174,18 @@ body {
     flex: 1;
     position: relative;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
     overflow: auto;
     padding: 40px;
 }
 
 .dropzone {
-    width: 100%;
-    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    width: max-content;
+    height: max-content;
     border: 2px dashed var(--border-color);
     border-radius: 16px;
     display: flex;
@@ -210,6 +212,7 @@ body {
 /* Canvas Area */
 #canvas {
     position: relative;
+    flex-shrink: 0;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     transition: transform 0.3s ease;
 }
@@ -220,10 +223,10 @@ body {
 
 #bgImg {
     display: block;
-    max-width: 100%;
-    max-height: calc(100vh - 80px);
-    /* accounting for workspace padding */
-    object-fit: contain;
+    height: 800px !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: none !important;
 }
 
 /* Model Wrapper */
@@ -267,10 +270,11 @@ model-viewer {
     transition: opacity 0.2s ease, transform 0.1s ease;
     z-index: 10;
     border: 2px solid white;
+    transform: scale(var(--inv-scale, 1));
 }
 
 .model-control:hover {
-    transform: scale(1.1);
+    transform: scale(calc(var(--inv-scale, 1) * 1.1));
 }
 
 .model-wrapper:hover .model-control,
@@ -299,6 +303,76 @@ model-viewer {
     right: -16px;
     cursor: nwse-resize;
     background: #f59e0b;
+}
+
+.btn-lock {
+    top: auto;
+    bottom: -16px;
+    left: -16px;
+    background: #64748b;
+}
+
+.btn-rot {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.2s, background 0.2s;
+    border: none;
+    transform: translate(-50%, -50%) scale(var(--inv-scale, 1));
+}
+
+.btn-rot:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translate(-50%, -50%) scale(calc(var(--inv-scale, 1) * 1.1));
+}
+
+.model-wrapper.active:not(.locked) .btn-rot {
+    opacity: 0.5;
+}
+
+.model-wrapper.active:not(.locked) .btn-rot:hover {
+    opacity: 1;
+}
+
+.btn-rot-up {
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(var(--inv-scale, 1));
+}
+
+.btn-rot-down {
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(var(--inv-scale, 1));
+}
+
+.btn-rot-left {
+    top: 50%;
+    left: 20%;
+    transform: translate(-50%, -50%) scale(var(--inv-scale, 1));
+}
+
+.btn-rot-right {
+    top: 50%;
+    left: 80%;
+    transform: translate(-50%, -50%) scale(var(--inv-scale, 1));
+}
+
+.model-wrapper.locked {
+    border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.model-wrapper.locked .model-control:not(.btn-lock) {
+    display: none !important;
 }
 
 /* Hide controls during screenshot */

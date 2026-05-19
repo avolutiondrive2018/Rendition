@@ -22,30 +22,17 @@ document.addEventListener('DOMContentLoaded', () => {
             uploadStatus.textContent = file.name;
             const reader = new FileReader();
             reader.onload = (event) => {
-                const tempImg = new Image();
-                tempImg.onload = () => {
-                    const h = 800;
-                    const w = (tempImg.width / tempImg.height) * h;
+                bgImg.onload = () => {
+                    dropzone.classList.remove('empty');
+                    dropzone.querySelector('.dropzone-message').style.display = 'none';
+                    canvas.classList.remove('canvas-hidden');
+                    modelsBox.style.display = 'flex';
+                    actionsBox.style.display = 'flex';
                     
-                    const resizer = document.createElement('canvas');
-                    resizer.width = w;
-                    resizer.height = h;
-                    const ctx = resizer.getContext('2d');
-                    ctx.drawImage(tempImg, 0, 0, w, h);
-                    
-                    bgImg.src = resizer.toDataURL('image/png');
-                    canvas.style.width = w + 'px';
-                    canvas.style.height = h + 'px';
-
-                    bgImg.onload = () => {
-                        dropzone.classList.remove('empty');
-                        dropzone.querySelector('.dropzone-message').style.display = 'none';
-                        canvas.classList.remove('canvas-hidden');
-                        modelsBox.style.display = 'flex';
-                        actionsBox.style.display = 'flex';
-                    };
+                    canvas.style.width = bgImg.offsetWidth + 'px';
+                    canvas.style.height = bgImg.offsetHeight + 'px';
                 };
-                tempImg.src = event.target.result;
+                bgImg.src = event.target.result;
             };
             reader.readAsDataURL(file);
         }
@@ -307,6 +294,22 @@ document.addEventListener('DOMContentLoaded', () => {
         btnSaveImage.innerHTML = 'Capturing...';
 
         try {
+            const isWatermarkChecked = document.getElementById('addWatermark').checked;
+            if (isWatermarkChecked) {
+                const watermarkEl = document.createElement('img');
+                watermarkEl.id = 'temp-watermark';
+                watermarkEl.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iODAwIj48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjMpIiBmb250LXNpemU9IjEwMHB4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgdHJhbnNmb3JtPSJyb3RhdGUoLTQ1LCA0MDAsIDQwMCkiPldBVEVSTUFSSzwvdGV4dD48L3N2Zz4=';
+                watermarkEl.style.position = 'absolute';
+                watermarkEl.style.top = '0';
+                watermarkEl.style.left = '0';
+                watermarkEl.style.width = '100%';
+                watermarkEl.style.height = '100%';
+                watermarkEl.style.pointerEvents = 'none';
+                watermarkEl.style.zIndex = '9999';
+                watermarkEl.style.objectFit = 'contain';
+                canvas.appendChild(watermarkEl);
+            }
+
             for (let wrapper of wrappers) {
                 wrapper.classList.add('hide-controls');
                 wrapper.classList.remove('active');
@@ -344,6 +347,9 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Screenshot failed:', error);
             alert('Oh no! Failed to capture screenshot.');
         } finally {
+            const addedWatermark = document.getElementById('temp-watermark');
+            if (addedWatermark) addedWatermark.remove();
+
             wrappers.forEach(w => w.classList.remove('hide-controls'));
             btnSaveImage.disabled = false;
             btnSaveImage.innerHTML = `

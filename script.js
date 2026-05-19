@@ -23,15 +23,17 @@ document.addEventListener('DOMContentLoaded', () => {
             uploadStatus.textContent = file.name;
             const reader = new FileReader();
             reader.onload = (event) => {
-                bgImg.src = event.target.result;
                 bgImg.onload = () => {
-                    // Update UI state
                     dropzone.classList.remove('empty');
                     dropzone.querySelector('.dropzone-message').style.display = 'none';
                     canvas.classList.remove('canvas-hidden');
                     modelsBox.style.display = 'flex';
                     actionsBox.style.display = 'flex';
+                    
+                    canvas.style.width = bgImg.offsetWidth + 'px';
+                    canvas.style.height = bgImg.offsetHeight + 'px';
                 };
+                bgImg.src = event.target.result;
             };
             reader.readAsDataURL(file);
         }
@@ -56,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const wrapper = document.createElement('div');
         wrapper.className = 'model-wrapper active';
         wrapper.dataset.scale = 1;
+        wrapper.style.setProperty('--inv-scale', 1);
 
         // Ensure only one active at a time initially
         document.querySelectorAll('.model-wrapper').forEach(w => w.classList.remove('active'));
@@ -70,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Model Viewer
         const modelViewer = document.createElement('model-viewer');
         modelViewer.src = url;
-        modelViewer.setAttribute('camera-controls', '');
         modelViewer.setAttribute('auto-rotate', '');
         modelViewer.setAttribute('interaction-prompt', 'none'); // Hide the hand icon
 
@@ -84,10 +86,49 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnResize = createControl('btn-resize', '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>');
         const btnDelete = createControl('btn-delete', '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>');
 
+        const svgUnlocked = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>';
+        const svgLocked = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>';
+        const btnLock = createControl('btn-lock', svgUnlocked);
+
+        btnLock.addEventListener('click', (e) => {
+            e.stopPropagation();
+            wrapper.classList.toggle('locked');
+            if (wrapper.classList.contains('locked')) {
+                btnLock.innerHTML = svgLocked;
+            } else {
+                btnLock.innerHTML = svgUnlocked;
+            }
+        });
+
+        const btnUp = createControl('btn-rot btn-rot-up', '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>');
+        const btnDown = createControl('btn-rot btn-rot-down', '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+        const btnLeft = createControl('btn-rot btn-rot-left', '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>');
+        const btnRight = createControl('btn-rot btn-rot-right', '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>');
+
+        function rotateCamera(dTheta, dPhi) {
+            if (wrapper.classList.contains('locked')) return;
+            const orbit = modelViewer.getCameraOrbit();
+            orbit.theta += dTheta;
+            orbit.phi += dPhi;
+            orbit.phi = Math.max(0.1, Math.min(Math.PI - 0.1, orbit.phi));
+            modelViewer.cameraOrbit = `${orbit.theta}rad ${orbit.phi}rad ${orbit.radius}m`;
+        }
+
+        const rotStep = 0.15;
+        btnUp.addEventListener('click', (e) => { e.stopPropagation(); rotateCamera(0, rotStep); });
+        btnDown.addEventListener('click', (e) => { e.stopPropagation(); rotateCamera(0, -rotStep); });
+        btnLeft.addEventListener('click', (e) => { e.stopPropagation(); rotateCamera(rotStep, 0); });
+        btnRight.addEventListener('click', (e) => { e.stopPropagation(); rotateCamera(-rotStep, 0); });
+
         wrapper.appendChild(modelViewer);
         wrapper.appendChild(btnMove);
         wrapper.appendChild(btnResize);
         wrapper.appendChild(btnDelete);
+        wrapper.appendChild(btnLock);
+        wrapper.appendChild(btnUp);
+        wrapper.appendChild(btnDown);
+        wrapper.appendChild(btnLeft);
+        wrapper.appendChild(btnRight);
 
         canvas.appendChild(wrapper);
 
@@ -110,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function setupMove(wrapper, handle) {
         handle.addEventListener('mousedown', (e) => {
+            if (wrapper.classList.contains('locked')) return;
             const startX = e.clientX;
             const startY = e.clientY;
             const startLeft = wrapper.offsetLeft;
@@ -140,6 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function setupResize(wrapper, handle) {
         handle.addEventListener('mousedown', (e) => {
+            if (wrapper.classList.contains('locked')) return;
             const startX = e.clientX;
             const startY = e.clientY;
             const startScale = parseFloat(wrapper.dataset.scale) || 1;
@@ -157,6 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 wrapper.dataset.scale = newScale;
                 wrapper.style.transform = `translate(-50%, -50%) scale(${newScale})`;
+                wrapper.style.setProperty('--inv-scale', 1 / newScale);
             };
 
             const onMouseUp = () => {
@@ -182,6 +226,22 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Wait for any model-viewer to finish rendering its frame
             await new Promise(r => setTimeout(r, 100));
+
+            const isWatermarkChecked = document.getElementById('addWatermark').checked;
+            if (isWatermarkChecked) {
+                const watermarkEl = document.createElement('img');
+                watermarkEl.id = 'temp-watermark';
+                watermarkEl.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iODAwIj48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjMpIiBmb250LXNpemU9IjEwMHB4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgdHJhbnNmb3JtPSJyb3RhdGUoLTQ1LCA0MDAsIDQwMCkiPldBVEVSTUFSSzwvdGV4dD48L3N2Zz4=';
+                watermarkEl.style.position = 'absolute';
+                watermarkEl.style.top = '0';
+                watermarkEl.style.left = '0';
+                watermarkEl.style.width = '100%';
+                watermarkEl.style.height = '100%';
+                watermarkEl.style.pointerEvents = 'none';
+                watermarkEl.style.zIndex = '9999';
+                watermarkEl.style.objectFit = 'contain';
+                canvas.appendChild(watermarkEl);
+            }
 
             for (let wrapper of wrappers) {
                 wrapper.classList.add('hide-controls');
@@ -243,6 +303,9 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Screenshot failed:', error);
             alert('Oh no! Failed to capture screenshot.');
         } finally {
+            const addedWatermark = document.getElementById('temp-watermark');
+            if (addedWatermark) addedWatermark.remove();
+
             // Restore model viewers
             replacements.forEach(rep => {
                 rep.img.remove();
