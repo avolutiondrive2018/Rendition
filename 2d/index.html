@@ -37,27 +37,62 @@
                     <button class="btn-model" data-width="300" data-height="200">
                         <div class="shape-preview"
                             style="aspect-ratio: 3/2; background: linear-gradient(135deg, #f87171, #fb923c);"></div>
-                        <span>3:2</span>
+                        <span>3:2 Fill</span>
                     </button>
                     <button class="btn-model" data-width="300" data-height="225">
                         <div class="shape-preview"
                             style="aspect-ratio: 4/3; background: linear-gradient(135deg, #34d399, #10b981);"></div>
-                        <span>4:3</span>
+                        <span>4:3 Fill</span>
                     </button>
                     <button class="btn-model" data-width="250" data-height="200">
                         <div class="shape-preview"
                             style="aspect-ratio: 5/4; background: linear-gradient(135deg, #60a5fa, #3b82f6);"></div>
-                        <span>5:4</span>
+                        <span>5:4 Fill</span>
                     </button>
                     <button class="btn-model" data-width="320" data-height="180">
                         <div class="shape-preview"
                             style="aspect-ratio: 16/9; background: linear-gradient(135deg, #a78bfa, #8b5cf6);"></div>
-                        <span>16:9</span>
+                        <span>16:9 Fill</span>
                     </button>
                     <button class="btn-model" data-width="320" data-height="200">
                         <div class="shape-preview"
                             style="aspect-ratio: 16/10; background: linear-gradient(135deg, #f472b6, #db2777);"></div>
-                        <span>16:10</span>
+                        <span>16:10 Fill</span>
+                    </button>
+                    <button class="btn-model" data-shape="circle-outline" data-width="200" data-height="200">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 1; border: 2px solid #3b82f6; border-radius: 50%; background: transparent; height: 35px; width: 35px; margin: 0 auto;"></div>
+                        <span>Circle (O)</span>
+                    </button>
+                    <button class="btn-model" data-shape="box-outline" data-width="300" data-height="200">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 3/2; border: 2px solid #3b82f6; background: transparent; height: 30px; width: 45px; margin: 0 auto;"></div>
+                        <span>Box (O)</span>
+                    </button>
+                    <button class="btn-model" data-shape="arrow" data-width="200" data-height="100">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 2/1; background: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50' fill='%233b82f6'%3E%3Cpath d='M5 20h60V10l25 15-25 15V30H5z'/%3E%3C/svg%3E&quot;) no-repeat center/contain; height: 30px; width: 100%;"></div>
+                        <span>Arrow</span>
+                    </button>
+                    <button class="btn-model" data-shape="dimension" data-width="240" data-height="80">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 3/1; background: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 50'%3E%3Cline x1='10' y1='25' x2='190' y2='25' stroke='%233b82f6' stroke-width='6'/%3E%3Cpath d='M25 12 L10 25 L25 38 Z' fill='%233b82f6'/%3E%3Cpath d='M175 12 L190 25 L175 38 Z' fill='%233b82f6'/%3E%3C/svg%3E&quot;) no-repeat center/contain; height: 30px; width: 100%;"></div>
+                        <span>Dimension</span>
+                    </button>
+                    <button class="btn-model" data-shape="text" data-width="200" data-height="80">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 2.5/1; display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(255,255,255,0.3); background: transparent; font-size: 14px; font-weight: bold; color: #f8fafc; height: 30px; width: 100%;">T</div>
+                        <span>Text</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="control-group" id="customImageShapeBox" style="display: none;">
+                <label class="control-label">Add Custom Image</label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="shapeImgUpload" accept="image/*" />
+                    <button class="btn btn-primary" onclick="document.getElementById('shapeImgUpload').click()">
+                        Upload Image Shape
                     </button>
                 </div>
             </div>

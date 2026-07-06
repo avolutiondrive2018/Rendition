@@ -28,6 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     canvas.classList.remove('canvas-hidden');
                     modelsBox.style.display = 'flex';
                     actionsBox.style.display = 'flex';
+                    const customImageShapeBox = document.getElementById('customImageShapeBox');
+                    if (customImageShapeBox) customImageShapeBox.style.display = 'flex';
 
                     canvas.style.width = bgImg.offsetWidth + 'px';
                     canvas.style.height = bgImg.offsetHeight + 'px';
@@ -38,17 +40,55 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Handle Custom Image Shape Upload
+    const shapeImgUpload = document.getElementById('shapeImgUpload');
+    if (shapeImgUpload) {
+        shapeImgUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const tempImg = new Image();
+                    tempImg.onload = () => {
+                        let w = tempImg.naturalWidth || 300;
+                        let h = tempImg.naturalHeight || 200;
+                        const maxDim = 300;
+                        if (w > maxDim || h > maxDim) {
+                            const ratio = w / h;
+                            if (w > h) {
+                                w = maxDim;
+                                h = Math.round(maxDim / ratio);
+                            } else {
+                                h = maxDim;
+                                w = Math.round(maxDim * ratio);
+                            }
+                        }
+                        const bgStyle = `url(${event.target.result}) no-repeat center/cover`;
+                        addShapeToCanvas(w, h, bgStyle, 'image');
+                    };
+                    tempImg.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+                shapeImgUpload.value = '';
+            }
+        });
+    }
+
     // Add 2D shapes
     document.querySelectorAll('.btn-model').forEach(btn => {
         btn.addEventListener('click', () => {
             const width = parseInt(btn.getAttribute('data-width'));
             const height = parseInt(btn.getAttribute('data-height'));
+            const shapeType = btn.getAttribute('data-shape') || 'color';
 
-            // For now, generate a colorful placeholder image based on the button's background
             const preview = btn.querySelector('.shape-preview');
-            const bg = window.getComputedStyle(preview).background;
+            let bg = window.getComputedStyle(preview).background;
 
-            addShapeToCanvas(width, height, bg);
+            if (shapeType === 'circle-outline' || shapeType === 'box-outline') {
+                bg = 'transparent';
+            }
+
+            addShapeToCanvas(width, height, bg, shapeType);
         });
     });
 
@@ -59,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function addShapeToCanvas(w, h, bgStyle) {
+    function addShapeToCanvas(w, h, bgStyle, shapeType = 'color') {
         const container = document.createElement('div');
         container.className = 'warp-container active';
 
@@ -79,9 +119,42 @@ document.addEventListener('DOMContentLoaded', () => {
         img.style.height = h + 'px';
         img.style.background = bgStyle;
 
-        const gridOverlay = document.createElement('div');
-        gridOverlay.className = 'grid-overlay';
-        img.appendChild(gridOverlay);
+        // Customize shape styling
+        if (shapeType === 'circle-outline') {
+            img.style.borderRadius = '50%';
+            img.style.border = '4px solid #3b82f6';
+        } else if (shapeType === 'box-outline') {
+            img.style.border = '4px solid #3b82f6';
+        } else if (shapeType === 'text') {
+            img.style.background = 'transparent';
+            img.style.boxShadow = 'none';
+        }
+
+        // Add grid overlay only to standard colored shapes
+        if (shapeType === 'color') {
+            const gridOverlay = document.createElement('div');
+            gridOverlay.className = 'grid-overlay';
+            img.appendChild(gridOverlay);
+        }
+
+        // Add editable text inputs for Dimension Arrow and Text shapes
+        if (shapeType === 'dimension') {
+            const textEl = document.createElement('div');
+            textEl.className = 'warp-editable-text';
+            textEl.contentEditable = 'true';
+            textEl.textContent = '5.0m';
+            textEl.addEventListener('keydown', (e) => e.stopPropagation());
+            textEl.addEventListener('mousedown', (e) => e.stopPropagation());
+            img.appendChild(textEl);
+        } else if (shapeType === 'text') {
+            const textEl = document.createElement('div');
+            textEl.className = 'warp-editable-text text-only';
+            textEl.contentEditable = 'true';
+            textEl.textContent = 'Enter text';
+            textEl.addEventListener('keydown', (e) => e.stopPropagation());
+            textEl.addEventListener('mousedown', (e) => e.stopPropagation());
+            img.appendChild(textEl);
+        }
 
         img.addEventListener('mousedown', (e) => {
             document.querySelectorAll('.warp-container').forEach(c => c.classList.remove('active'));

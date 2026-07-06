@@ -257,6 +257,7 @@ body {
     left: 50%;
     width: 0;
     height: 0;
+    transform-style: preserve-3d;
 }
 
 .warp-img {
@@ -288,7 +289,7 @@ body {
     background: #3bf6b8;
     border: 3px solid #ffffff;
     border-radius: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) translateZ(15px);
     cursor: crosshair;
     z-index: 10;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
@@ -316,7 +317,7 @@ body {
     justify-content: center;
     cursor: grab;
     z-index: 11;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) translateZ(10px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     opacity: 0;
     transition: opacity 0.2s;
@@ -343,7 +344,7 @@ body {
     justify-content: center;
     cursor: pointer;
     z-index: 11;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) translateZ(10px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     opacity: 0;
     transition: opacity 0.2s;
@@ -358,4 +359,55 @@ body {
 .warp-container.hide-controls .warp-move,
 .warp-container.hide-controls .warp-delete {
     display: none !important;
+}
+
+/* Editable Text Overlay Styles */
+.warp-editable-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(15, 23, 42, 0.85);
+    color: #f8fafc;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    min-width: 60px;
+    text-align: center;
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+    outline: none;
+    white-space: nowrap;
+    z-index: 5;
+    pointer-events: auto;
+    font-family: 'Inter', sans-serif;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.warp-editable-text:focus {
+    border-color: #3b82f6;
+    background: rgba(15, 23, 42, 0.95);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.warp-editable-text.text-only {
+    font-size: 24px;
+    font-weight: 700;
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.2);
+    min-width: 120px;
+    padding: 8px 12px;
+}
+
+.warp-editable-text.text-only:focus {
+    background: rgba(15, 23, 42, 0.8);
+}
+
+.warp-container:not(.active) .warp-editable-text {
+    border-color: transparent;
+    background: rgba(15, 23, 42, 0.6);
+}
+
+.warp-container:not(.active) .warp-editable-text.text-only {
+    background: transparent;
 }

@@ -59,6 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
         wrapper.className = 'model-wrapper active';
         wrapper.dataset.scale = 1;
         wrapper.style.setProperty('--inv-scale', 1);
+        wrapper.style.left = (canvas.offsetWidth / 2) + 'px';
+        wrapper.style.top = (canvas.offsetHeight / 2) + 'px';
 
         // Ensure only one active at a time initially
         document.querySelectorAll('.model-wrapper').forEach(w => w.classList.remove('active'));
@@ -155,8 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (wrapper.classList.contains('locked')) return;
             const startX = e.clientX;
             const startY = e.clientY;
-            const startLeft = wrapper.offsetLeft;
-            const startTop = wrapper.offsetTop;
+            const startLeft = parseFloat(wrapper.style.left) || (canvas.offsetWidth / 2);
+            const startTop = parseFloat(wrapper.style.top) || (canvas.offsetHeight / 2);
 
             document.querySelectorAll('.model-wrapper').forEach(w => w.classList.remove('active'));
             wrapper.classList.add('active');
