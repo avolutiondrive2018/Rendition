@@ -334,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isWatermarkChecked) {
                 const watermarkEl = document.createElement('img');
                 watermarkEl.id = 'temp-watermark';
-                watermarkEl.src = 'image/watermark.png';
+                watermarkEl.src = '../watermark.png';
                 watermarkEl.style.position = 'absolute';
                 watermarkEl.style.top = '0';
                 watermarkEl.style.left = '0';
@@ -438,15 +438,15 @@ document.addEventListener('DOMContentLoaded', () => {
         container.className = 'warp-container active';
         bringToFront(container);
 
-        container.style.left = (canvas.offsetWidth  / 2) + 'px';
-        container.style.top  = (canvas.offsetHeight / 2) + 'px';
+        container.style.left = (canvas.offsetWidth / 2) + 'px';
+        container.style.top = (canvas.offsetHeight / 2) + 'px';
 
         const img = document.createElement('div');
         img.className = 'warp-img';
-        img.style.width      = w + 'px';
-        img.style.height     = h + 'px';
+        img.style.width = w + 'px';
+        img.style.height = h + 'px';
         img.style.background = 'transparent';
-        img.style.boxShadow  = 'none';
+        img.style.boxShadow = 'none';
 
         const selectAll = () => {
             document.querySelectorAll('.model-wrapper').forEach(w => w.classList.remove('active'));
@@ -460,7 +460,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let dstPts = [
             { x: -w / 2, y: 0 },
-            { x:  w / 2, y: 0 }
+            { x: w / 2, y: 0 }
         ];
 
         // ── Handles ──
@@ -510,7 +510,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const mx = ev.clientX !== undefined ? ev.clientX : ev.touches[0].clientX;
                 const my = ev.clientY !== undefined ? ev.clientY : ev.touches[0].clientY;
                 container.style.left = (sl + (mx - cx)) + 'px';
-                container.style.top  = (st + (my - cy)) + 'px';
+                container.style.top = (st + (my - cy)) + 'px';
             };
             const onEnd = () => { document.removeEventListener(moveEvt, onMove); document.removeEventListener(endEvt, onEnd); };
             document.addEventListener(moveEvt, onMove);
@@ -521,14 +521,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (container.classList.contains('locked')) return;
             e.stopPropagation(); e.preventDefault();
             selectAll(); container.classList.add('active'); bringToFront(container);
-            startMove(e.clientX, e.clientY, parseFloat(container.style.left)||0, parseFloat(container.style.top)||0, 'mousemove', 'mouseup');
+            startMove(e.clientX, e.clientY, parseFloat(container.style.left) || 0, parseFloat(container.style.top) || 0, 'mousemove', 'mouseup');
         });
         btnMove.addEventListener('touchstart', (e) => {
             if (container.classList.contains('locked')) return;
             e.stopPropagation(); e.preventDefault();
             selectAll(); container.classList.add('active'); bringToFront(container);
             const t = e.touches[0];
-            startMove(t.clientX, t.clientY, parseFloat(container.style.left)||0, parseFloat(container.style.top)||0, 'touchmove', 'touchend');
+            startMove(t.clientX, t.clientY, parseFloat(container.style.left) || 0, parseFloat(container.style.top) || 0, 'touchmove', 'touchend');
         }, { passive: false });
 
         // ── Delete button ──
@@ -564,7 +564,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function updateWarp() {
             const p0 = dstPts[0], p1 = dstPts[1];
             const dx = p1.x - p0.x, dy = p1.y - p0.y;
-            const L = Math.max(20, Math.sqrt(dx*dx + dy*dy));
+            const L = Math.max(20, Math.sqrt(dx * dx + dy * dy));
             const angle = Math.atan2(dy, dx);
 
             const existingTextEl = img.querySelector('.warp-editable-text');
@@ -573,40 +573,40 @@ document.addEventListener('DOMContentLoaded', () => {
             const sc = '#3b82f6';
             img.innerHTML = `
                 <svg width="${L}" height="50" viewBox="0 0 ${L} 50" xmlns="http://www.w3.org/2000/svg" style="display:block;">
-                  <line x1="15" y1="25" x2="${L-15}" y2="25" stroke="${sc}" stroke-width="4"/>
+                  <line x1="15" y1="25" x2="${L - 15}" y2="25" stroke="${sc}" stroke-width="4"/>
                   <path d="M22 12 L7 25 L22 38 Z" fill="${sc}" stroke="#fff" stroke-width="1.5"/>
-                  <path d="M${L-22} 12 L${L-2} 25 L${L-22} 38 Z" fill="${sc}" stroke="#fff" stroke-width="1.5"/>
+                  <path d="M${L - 22} 12 L${L - 2} 25 L${L - 22} 38 Z" fill="${sc}" stroke="#fff" stroke-width="1.5"/>
                 </svg>
                 <div class="warp-editable-text" contenteditable="true" style="pointer-events:auto;">${currentText}</div>
             `;
 
             const textEl = img.querySelector('.warp-editable-text');
-            textEl.addEventListener('keydown',   (e) => e.stopPropagation());
-            textEl.addEventListener('mousedown',  (e) => { if (container.classList.contains('locked')) { e.preventDefault(); e.stopPropagation(); return; } e.stopPropagation(); });
+            textEl.addEventListener('keydown', (e) => e.stopPropagation());
+            textEl.addEventListener('mousedown', (e) => { if (container.classList.contains('locked')) { e.preventDefault(); e.stopPropagation(); return; } e.stopPropagation(); });
             textEl.addEventListener('touchstart', (e) => { if (container.classList.contains('locked')) { e.preventDefault(); e.stopPropagation(); return; } e.stopPropagation(); });
-            textEl.addEventListener('focus',      ()  => { if (container.classList.contains('locked')) textEl.blur(); });
+            textEl.addEventListener('focus', () => { if (container.classList.contains('locked')) textEl.blur(); });
 
-            img.style.width          = L + 'px';
-            img.style.height         = '50px';
-            img.style.left           = p0.x + 'px';
-            img.style.top            = (p0.y - 25) + 'px';
-            img.style.transformOrigin= '0px 25px';
-            img.style.transform      = `rotate(${angle}rad)`;
+            img.style.width = L + 'px';
+            img.style.height = '50px';
+            img.style.left = p0.x + 'px';
+            img.style.top = (p0.y - 25) + 'px';
+            img.style.transformOrigin = '0px 25px';
+            img.style.transform = `rotate(${angle}rad)`;
 
             handles[0].style.left = p0.x + 'px';
-            handles[0].style.top  = p0.y + 'px';
+            handles[0].style.top = p0.y + 'px';
             handles[1].style.left = p1.x + 'px';
-            handles[1].style.top  = p1.y + 'px';
+            handles[1].style.top = p1.y + 'px';
 
             const midX = (p0.x + p1.x) / 2;
             const midY = (p0.y + p1.y) / 2;
 
-            btnMove.style.left   = (midX - 20) + 'px';
-            btnMove.style.top    = (midY - 36) + 'px';
-            btnLock.style.left   = (midX + 20) + 'px';
-            btnLock.style.top    = (midY - 36) + 'px';
+            btnMove.style.left = (midX - 20) + 'px';
+            btnMove.style.top = (midY - 36) + 'px';
+            btnLock.style.left = (midX + 20) + 'px';
+            btnLock.style.top = (midY - 36) + 'px';
             btnDelete.style.left = midX + 'px';
-            btnDelete.style.top  = (midY + 36) + 'px';
+            btnDelete.style.top = (midY + 36) + 'px';
         }
 
         updateWarp();
@@ -618,15 +618,15 @@ document.addEventListener('DOMContentLoaded', () => {
         container.className = 'warp-container active';
         bringToFront(container);
 
-        container.style.left = (canvas.offsetWidth  / 2) + 'px';
-        container.style.top  = (canvas.offsetHeight / 2) + 'px';
+        container.style.left = (canvas.offsetWidth / 2) + 'px';
+        container.style.top = (canvas.offsetHeight / 2) + 'px';
 
         const img = document.createElement('div');
         img.className = 'warp-img';
-        img.style.width      = w + 'px';
-        img.style.height     = h + 'px';
+        img.style.width = w + 'px';
+        img.style.height = h + 'px';
         img.style.background = 'transparent';
-        img.style.boxShadow  = 'none';
+        img.style.boxShadow = 'none';
 
         const textEl = document.createElement('div');
         textEl.className = 'warp-editable-text text-only';
@@ -651,7 +651,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.warp-container').forEach(c => c.classList.remove('active'));
         };
 
-        img.addEventListener('mousedown',  (e) => { selectAll(); container.classList.add('active'); bringToFront(container); e.stopPropagation(); });
+        img.addEventListener('mousedown', (e) => { selectAll(); container.classList.add('active'); bringToFront(container); e.stopPropagation(); });
         img.addEventListener('touchstart', (e) => { selectAll(); container.classList.add('active'); bringToFront(container); e.stopPropagation(); });
 
         container.appendChild(img);
@@ -661,8 +661,8 @@ document.addEventListener('DOMContentLoaded', () => {
             { x: 0, y: 0 }, { x: w, y: 0 }, { x: w, y: h }, { x: 0, y: h }
         ];
         let dstPts = [
-            { x: -w/2, y: -h/2 }, { x: w/2, y: -h/2 },
-            { x:  w/2, y:  h/2 }, { x: -w/2, y:  h/2 }
+            { x: -w / 2, y: -h / 2 }, { x: w / 2, y: -h / 2 },
+            { x: w / 2, y: h / 2 }, { x: -w / 2, y: h / 2 }
         ];
 
         const handles = [];
@@ -711,7 +711,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const mx = ev.clientX !== undefined ? ev.clientX : ev.touches[0].clientX;
                 const my = ev.clientY !== undefined ? ev.clientY : ev.touches[0].clientY;
                 container.style.left = (sl + (mx - cx)) + 'px';
-                container.style.top  = (st + (my - cy)) + 'px';
+                container.style.top = (st + (my - cy)) + 'px';
             };
             const onEnd = () => { document.removeEventListener(moveEvt, onMove); document.removeEventListener(endEvt, onEnd); };
             document.addEventListener(moveEvt, onMove);
@@ -722,14 +722,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (container.classList.contains('locked')) return;
             e.stopPropagation(); e.preventDefault();
             selectAll(); container.classList.add('active'); bringToFront(container);
-            startMove(e.clientX, e.clientY, parseFloat(container.style.left)||0, parseFloat(container.style.top)||0, 'mousemove', 'mouseup');
+            startMove(e.clientX, e.clientY, parseFloat(container.style.left) || 0, parseFloat(container.style.top) || 0, 'mousemove', 'mouseup');
         });
         btnMove.addEventListener('touchstart', (e) => {
             if (container.classList.contains('locked')) return;
             e.stopPropagation(); e.preventDefault();
             selectAll(); container.classList.add('active'); bringToFront(container);
             const t = e.touches[0];
-            startMove(t.clientX, t.clientY, parseFloat(container.style.left)||0, parseFloat(container.style.top)||0, 'touchmove', 'touchend');
+            startMove(t.clientX, t.clientY, parseFloat(container.style.left) || 0, parseFloat(container.style.top) || 0, 'touchmove', 'touchend');
         }, { passive: false });
 
         // Delete button
@@ -770,29 +770,29 @@ document.addEventListener('DOMContentLoaded', () => {
             const newW = Math.max(60, Math.abs(dstPts[1].x - dstPts[0].x));
             const newH = Math.max(30, Math.abs(dstPts[3].y - dstPts[0].y));
 
-            img.style.width  = newW + 'px';
+            img.style.width = newW + 'px';
             img.style.height = newH + 'px';
-            img.style.left   = (-newW / 2) + 'px';
-            img.style.top    = (-newH / 2) + 'px';
+            img.style.left = (-newW / 2) + 'px';
+            img.style.top = (-newH / 2) + 'px';
             img.style.transform = '';
 
             // Recalculate dstPts to stay consistent
             dstPts = [
-                { x: -newW/2, y: -newH/2 }, { x: newW/2, y: -newH/2 },
-                { x:  newW/2, y:  newH/2 }, { x: -newW/2, y:  newH/2 }
+                { x: -newW / 2, y: -newH / 2 }, { x: newW / 2, y: -newH / 2 },
+                { x: newW / 2, y: newH / 2 }, { x: -newW / 2, y: newH / 2 }
             ];
 
             for (let i = 0; i < 4; i++) {
                 handles[i].style.left = dstPts[i].x + 'px';
-                handles[i].style.top  = dstPts[i].y + 'px';
+                handles[i].style.top = dstPts[i].y + 'px';
             }
 
-            btnMove.style.left   = (cx2 - 20) + 'px';
-            btnMove.style.top    = (cy2 - 36) + 'px';
-            btnLock.style.left   = (cx2 + 20) + 'px';
-            btnLock.style.top    = (cy2 - 36) + 'px';
+            btnMove.style.left = (cx2 - 20) + 'px';
+            btnMove.style.top = (cy2 - 36) + 'px';
+            btnLock.style.left = (cx2 + 20) + 'px';
+            btnLock.style.top = (cy2 - 36) + 'px';
             btnDelete.style.left = cx2 + 'px';
-            btnDelete.style.top  = (cy2 + 36) + 'px';
+            btnDelete.style.top = (cy2 + 36) + 'px';
         }
 
         updateLayout();

@@ -355,7 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Lock button
         const svgUnlocked = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>';
-        const svgLocked  = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>';
+        const svgLocked = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>';
         const btnLock = document.createElement('div');
         btnLock.className = 'warp-lock';
         btnLock.innerHTML = svgUnlocked;
@@ -561,7 +561,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isWatermarkChecked) {
                 const watermarkEl = document.createElement('img');
                 watermarkEl.id = 'temp-watermark';
-                watermarkEl.src = '../image/watermark.png';
+                watermarkEl.src = 'watermark.png';
                 watermarkEl.style.position = 'absolute';
                 watermarkEl.style.top = '0';
                 watermarkEl.style.left = '0';
