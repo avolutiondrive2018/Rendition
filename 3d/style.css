@@ -36,6 +36,7 @@ body {
     width: 320px;
     min-width: 320px;
     flex-shrink: 0;
+    height: 100vh;
     background: var(--sidebar-bg);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
