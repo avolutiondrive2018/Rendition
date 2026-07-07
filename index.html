@@ -4,22 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rendition 3D Compositor</title>
+    <title>Rendition 2D Compositor</title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <!-- Styles -->
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-
     <div class="app-container">
         <!-- Sidebar Controls -->
         <aside class="sidebar">
-            <h1 class="logo">Rendition 3D</h1>
-            <button class="btn text-secondary" onclick="window.location.href='2d/index.html'">Switch to
-                2D</button>
-            <p class=" subtitle">3D Scene Compositor</p>
+            <h1 class="logo">Rendition 2D</h1>
+            <button class="btn text-secondary" onclick="window.location.href='3d/index.html'">Switch to
+                3D</button>
+            <p class="subtitle">2D Warp Compositor</p>
 
             <div class="control-group">
                 <label class="control-label">Background Image</label>
@@ -31,119 +30,74 @@
                 </div>
             </div>
 
-            <div class="control-group" id="modelsBox" style="display: flex;">
-                <label class="control-label">Add 3D Models</label>
-                <!-- <div class="models-grid">
-                    <button class="btn-model" data-model="https://modelviewer.dev/shared-assets/models/Astronaut.glb">
-                        <img src="https://raw.githubusercontent.com/google/model-viewer/master/packages/shared-assets/models/Astronaut.png"
-                            alt="Astronaut"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QXN0cm9uYXV0PC90ZXh0Pjwvc3ZnPg=='" />
-                        <span>Astronaut</span>
-                    </button>
-                    <button class="btn-model" data-model="models/1_1.glb">
-                        <img src="image/led.png" alt="1_1"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>1:1</span>
-                    </button>
-                    <button class="btn-model" data-model="models/3_2.glb">
-                        <img src="image/led.png" alt="3_2"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>3:2</span>
-                    </button>
-                    <button class="btn-model" data-model="models/4_3.glb">
-                        <img src="image/led.png" alt="4_3"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>4:3</span>
-                    </button>
-                    <button class="btn-model" data-model="models/5_4.glb">
-                        <img src="image/led.png" alt="5_4"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>5:4</span>
-                    </button>
-                    <button class="btn-model" data-model="models/16_9.glb">
-                        <img src="image/led.png" alt="16_9"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>16:9</span>
-                    </button>
-                    <button class="btn-model" data-model="models/16_10.glb">
-                        <img src="image/led.png" alt="16_10"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>16:10</span>
-                    </button>
-                </div> -->
-                <label class="control-label">Horizontal</label>
+            <div class="control-group" id="modelsBox" style="display: none;">
+                <label class="control-label">Add 2D Shapes</label>
                 <div class="models-grid">
-                    <button class="btn-model" data-model="models/1_1.glb">
-                        <img src="image/led.png" alt="1_1"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>1:1</span>
+                    <!-- Data values will hold width and height -->
+                    <button class="btn-model" data-width="300" data-height="200">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 3/2; background: linear-gradient(135deg, #f87171, #fb923c);"></div>
+                        <span>3:2 Fill</span>
                     </button>
-                    <button class="btn-model" data-model="models/3_2_seamless.glb">
-                        <img src="image/led.png" alt="3_2"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>3:2</span>
+                    <button class="btn-model" data-width="300" data-height="225">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 4/3; background: linear-gradient(135deg, #34d399, #10b981);"></div>
+                        <span>4:3 Fill</span>
                     </button>
-                    <button class="btn-model" data-model="models/4_3_seamless.glb">
-                        <img src="image/led.png" alt="4_3"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>4:3</span>
+                    <button class="btn-model" data-width="250" data-height="200">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 5/4; background: linear-gradient(135deg, #60a5fa, #3b82f6);"></div>
+                        <span>5:4 Fill</span>
                     </button>
-                    <button class="btn-model" data-model="models/5_4_seamless.glb">
-                        <img src="image/led.png" alt="5_4"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>5:4</span>
+                    <button class="btn-model" data-width="320" data-height="180">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 16/9; background: linear-gradient(135deg, #a78bfa, #8b5cf6);"></div>
+                        <span>16:9 Fill</span>
                     </button>
-                    <button class="btn-model" data-model="models/16_9_seamless.glb">
-                        <img src="image/led.png" alt="16_9"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>16:9</span>
+                    <button class="btn-model" data-width="320" data-height="200">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 16/10; background: linear-gradient(135deg, #f472b6, #db2777);"></div>
+                        <span>16:10 Fill</span>
                     </button>
-                    <button class="btn-model" data-model="models/16_10_seamless.glb">
-                        <img src="image/led.png" alt="16_10"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>16:10</span>
+                    <button class="btn-model" data-shape="circle-outline" data-width="200" data-height="200">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 1; border: 2px solid #3b82f6; border-radius: 50%; background: transparent; height: 35px; width: 35px; margin: 0 auto;">
+                        </div>
+                        <span>Circle (O)</span>
+                    </button>
+                    <button class="btn-model" data-shape="box-outline" data-width="300" data-height="200">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 3/2; border: 2px solid #3b82f6; background: transparent; height: 30px; width: 45px; margin: 0 auto;">
+                        </div>
+                        <span>Box (O)</span>
+                    </button>
+                    <button class="btn-model" data-shape="arrow" data-width="200" data-height="100">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 2/1; background: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50' fill='%233b82f6'%3E%3Cpath d='M5 20h60V10l25 15-25 15V30H5z'/%3E%3C/svg%3E&quot;) no-repeat center/contain; height: 30px; width: 100%;">
+                        </div>
+                        <span>Arrow</span>
+                    </button>
+                    <button class="btn-model" data-shape="dimension" data-width="240" data-height="80">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 3/1; background: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 50'%3E%3Cline x1='10' y1='25' x2='190' y2='25' stroke='%233b82f6' stroke-width='6'/%3E%3Cpath d='M25 12 L10 25 L25 38 Z' fill='%233b82f6'/%3E%3Cpath d='M175 12 L190 25 L175 38 Z' fill='%233b82f6'/%3E%3C/svg%3E&quot;) no-repeat center/contain; height: 30px; width: 100%;">
+                        </div>
+                        <span>Dimension</span>
+                    </button>
+                    <button class="btn-model" data-shape="text" data-width="200" data-height="80">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 2.5/1; display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(255,255,255,0.3); background: transparent; font-size: 14px; font-weight: bold; color: #f8fafc; height: 30px; width: 100%;">
+                            T</div>
+                        <span>Text</span>
                     </button>
                 </div>
-                <label class="control-label">Pole</label>
-                <div class="models-grid">
-                    <button class="btn-model" data-model="models/pole_1.glb">
-                        <img src="image/pole_1.png" alt=""
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>Pole</span>
-                    </button>
-                    <button class="btn-model" data-model="https://modelviewer.dev/shared-assets/models/Astronaut.glb">
-                        <img src="https://raw.githubusercontent.com/google/model-viewer/master/packages/shared-assets/models/Astronaut.png"
-                            alt="Astronaut"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QXN0cm9uYXV0PC90ZXh0Pjwvc3ZnPg=='" />
-                        <span>Astronaut</span>
-                    </button>
-                </div>
-                <label class="control-label">Vertical</label>
-                <div class="models-grid">
-                    <button class="btn-model" data-model="models/v2_3.glb">
-                        <img src="image/led-vertical.png" alt="v2_3"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>2:3</span>
-                    </button>
-                    <button class="btn-model" data-model="models/v3_4.glb">
-                        <img src="image/led-vertical.png" alt="v3_4"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>3:4</span>
-                    </button>
-                    <button class="btn-model" data-model="models/v4_5.glb">
-                        <img src="image/led-vertical.png" alt="v4_5"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>4:5</span>
-                    </button>
-                    <button class="btn-model" data-model="models/v9_16.glb">
-                        <img src="image/led-vertical.png" alt="v9_16"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>9:16</span>
-                    </button>
-                    <button class="btn-model" data-model="models/v10_16.glb">
-                        <img src="image/led-vertical.png" alt="v10_16"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RHVjazwvdGV4dD48L3N2Zz4='" />
-                        <span>10:16</span>
+            </div>
+
+            <div class="control-group" id="customImageShapeBox" style="display: none;">
+                <label class="control-label">Add Custom Image</label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="shapeImgUpload" accept="image/*" />
+                    <button class="btn btn-primary" onclick="document.getElementById('shapeImgUpload').click()">
+                        Upload Image Shape
                     </button>
                 </div>
             </div>
@@ -180,19 +134,17 @@
                     <h2>Upload an image to start</h2>
                     <p>Supported formats: JPG, PNG, WebP</p>
                 </div>
-                <!-- Canvas becomes populated once image is uploaded -->
                 <div id="canvas" class="canvas-hidden">
                     <img id="bgImg" src="" alt="Background" draggable="false" />
-                    <!-- Model wrappers injected here -->
+                    <!-- 2D models will be injected here -->
                 </div>
             </div>
         </main>
     </div>
 
     <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
-    <script src="script.js?v=2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image-more/3.1.6/dom-to-image-more.min.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>

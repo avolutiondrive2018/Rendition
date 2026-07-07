@@ -1,11 +1,11 @@
 :root {
-    --bg-dark: #570808;
+    --bg-dark: #0f172a;
     --sidebar-bg: rgba(30, 41, 59, 0.7);
     --border-color: rgba(255, 255, 255, 0.1);
     --text-primary: #f8fafc;
     --text-secondary: #94a3b8;
     --brand-primary: #3b82f6;
-    --brand-hover: #8125eb;
+    --brand-hover: #2563eb;
     --success: #10b981;
     --success-hover: #059669;
     --danger: #ef4444;
@@ -143,14 +143,17 @@ body {
 #modelsBox::-webkit-scrollbar {
     width: 6px;
 }
+
 #modelsBox::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.05);
     border-radius: 4px;
 }
+
 #modelsBox::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.2);
     border-radius: 4px;
 }
+
 #modelsBox::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.3);
 }
@@ -174,10 +177,12 @@ body {
     border-color: var(--brand-primary);
 }
 
-.shape-preview {
+.btn-model img {
     width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
     border-radius: 4px;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    background: #000;
 }
 
 .btn-model span {
@@ -235,6 +240,7 @@ body {
     position: relative;
     flex-shrink: 0;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease;
 }
 
 #canvas.canvas-hidden {
@@ -249,165 +255,159 @@ body {
     max-height: none !important;
 }
 
-/* Warp Mechanics */
-.warp-container {
+/* Model Wrapper */
+.model-wrapper {
     position: absolute;
-    /* Absolute relative to #canvas. Javascript handles positioning. */
     top: 50%;
     left: 50%;
-    width: 0;
-    height: 0;
-    transform-style: preserve-3d;
+    width: 500px;
+    height: 500px;
+    transform: translate(-50%, -50%);
+    border: 2px solid transparent;
 }
 
-.warp-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform-origin: 0 0;
-    user-select: none;
-    -webkit-user-drag: none;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+.model-wrapper:hover,
+.model-wrapper.active {
+    border-color: rgba(59, 130, 246, 0.5);
+    background: rgba(59, 130, 246, 0.05);
+    /* very slight background on hover */
 }
 
-.grid-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
+model-viewer {
     width: 100%;
     height: 100%;
-    pointer-events: none;
-    background-image:
-        linear-gradient(to right, transparent calc(33.33% - 1px), rgba(255, 255, 255, 0.7) 33.33%, transparent calc(33.33% + 1px), transparent calc(66.66% - 1px), rgba(255, 255, 255, 0.7) 66.66%, transparent calc(66.66% + 1px)),
-        linear-gradient(to bottom, transparent calc(33.33% - 1px), rgba(255, 255, 255, 0.7) 33.33%, transparent calc(33.33% + 1px), transparent calc(66.66% - 1px), rgba(255, 255, 255, 0.7) 66.66%, transparent calc(66.66% + 1px));
+    --poster-color: transparent;
 }
 
-.warp-handle {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background: #3bf6b8;
-    border: 3px solid #ffffff;
-    border-radius: 50%;
-    transform: translate(-50%, -50%) translateZ(15px);
-    cursor: crosshair;
-    z-index: 10;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    transition: opacity 0.2s, background 0.2s;
-}
-
-.warp-handle:hover {
-    background: #10b981;
-}
-
-.warp-container.active .warp-handle {
-    opacity: 1;
-}
-
-.warp-move {
+/* Wrapper Controls */
+.model-control {
     position: absolute;
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: #f59e0b;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: grab;
-    z-index: 11;
-    transform: translate(-50%, -50%) translateZ(10px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-    opacity: 0;
-    transition: opacity 0.2s;
-    border: 2px solid white;
-}
-
-.warp-move:active {
-    cursor: grabbing;
-}
-
-.warp-container.active .warp-move {
-    opacity: 1;
-}
-
-.warp-delete {
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: var(--danger);
+    background: var(--brand-primary);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 11;
-    transform: translate(-50%, -50%) translateZ(10px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     opacity: 0;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+    z-index: 10;
     border: 2px solid white;
+    transform: scale(var(--inv-scale, 1));
 }
 
-.warp-container.active .warp-delete {
+.model-control:hover {
+    transform: scale(calc(var(--inv-scale, 1) * 1.1));
+}
+
+.model-wrapper:hover .model-control,
+.model-wrapper.active .model-control {
     opacity: 1;
 }
 
-.warp-container.hide-controls .warp-handle,
-.warp-container.hide-controls .warp-move,
-.warp-container.hide-controls .warp-delete {
+.btn-move {
+    top: -16px;
+    left: -16px;
+    cursor: grab;
+}
+
+.btn-move:active {
+    cursor: grabbing;
+}
+
+.btn-delete {
+    top: -16px;
+    right: -16px;
+    background: var(--danger);
+}
+
+.btn-resize {
+    bottom: -16px;
+    right: -16px;
+    cursor: nwse-resize;
+    background: #f59e0b;
+}
+
+.btn-lock {
+    top: auto;
+    bottom: -16px;
+    left: -16px;
+    background: #64748b;
+}
+
+.btn-rot {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.2s, background 0.2s;
+    border: none;
+    transform: translate(-50%, -50%) scale(var(--inv-scale, 1));
+}
+
+.btn-rot:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translate(-50%, -50%) scale(calc(var(--inv-scale, 1) * 1.1));
+}
+
+.model-wrapper.active:not(.locked) .btn-rot {
+    opacity: 0.5;
+}
+
+.model-wrapper.active:not(.locked) .btn-rot:hover {
+    opacity: 1;
+}
+
+.btn-rot-up {
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(var(--inv-scale, 1));
+}
+
+.btn-rot-down {
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(var(--inv-scale, 1));
+}
+
+.btn-rot-left {
+    top: 50%;
+    left: 20%;
+    transform: translate(-50%, -50%) scale(var(--inv-scale, 1));
+}
+
+.btn-rot-right {
+    top: 50%;
+    left: 80%;
+    transform: translate(-50%, -50%) scale(var(--inv-scale, 1));
+}
+
+.model-wrapper.locked {
+    border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.model-wrapper.locked .model-control:not(.btn-lock) {
     display: none !important;
 }
 
-/* Editable Text Overlay Styles */
-.warp-editable-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(15, 23, 42, 0.85);
-    color: #f8fafc;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 600;
-    min-width: 60px;
-    text-align: center;
-    border: 1px dashed rgba(255, 255, 255, 0.3);
-    outline: none;
-    white-space: nowrap;
-    z-index: 5;
-    pointer-events: auto;
-    font-family: 'Inter', sans-serif;
-    transition: background-color 0.2s, border-color 0.2s;
+/* Hide controls during screenshot */
+.model-wrapper.hide-controls {
+    border-color: transparent !important;
+    background: transparent !important;
 }
 
-.warp-editable-text:focus {
-    border-color: #3b82f6;
-    background: rgba(15, 23, 42, 0.95);
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
-}
-
-.warp-editable-text.text-only {
-    font-size: 24px;
-    font-weight: 700;
-    background: transparent;
-    border-color: rgba(255, 255, 255, 0.2);
-    min-width: 120px;
-    padding: 8px 12px;
-}
-
-.warp-editable-text.text-only:focus {
-    background: rgba(15, 23, 42, 0.8);
-}
-
-.warp-container:not(.active) .warp-editable-text {
-    border-color: transparent;
-    background: rgba(15, 23, 42, 0.6);
-}
-
-.warp-container:not(.active) .warp-editable-text.text-only {
-    background: transparent;
+.model-wrapper.hide-controls .model-control {
+    opacity: 0 !important;
+    display: none !important;
 }
