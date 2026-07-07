@@ -148,6 +148,24 @@
                 </div>
             </div>
 
+            <div class="control-group" id="shapesBox" style="display: none;">
+                <label class="control-label">Annotations</label>
+                <div class="models-grid">
+                    <button class="btn-shape" data-shape="dimension" data-width="240" data-height="80">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 3/1; background: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 50'%3E%3Cline x1='10' y1='25' x2='190' y2='25' stroke='%233b82f6' stroke-width='6'/%3E%3Cpath d='M25 12 L10 25 L25 38 Z' fill='%233b82f6'/%3E%3Cpath d='M175 12 L190 25 L175 38 Z' fill='%233b82f6'/%3E%3C/svg%3E&quot;) no-repeat center/contain; height: 30px; width: 100%;">
+                        </div>
+                        <span>Dimension</span>
+                    </button>
+                    <button class="btn-shape" data-shape="text" data-width="200" data-height="80">
+                        <div class="shape-preview"
+                            style="aspect-ratio: 2.5/1; display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(255,255,255,0.3); background: transparent; font-size: 14px; font-weight: bold; color: #f8fafc; height: 30px; width: 100%;">
+                            T</div>
+                        <span>Text</span>
+                    </button>
+                </div>
+            </div>
+
             <div class="control-group action-group" id="actionsBox"
                 style="display: none; flex-direction: column; gap: 12px;">
                 <label
@@ -169,6 +187,13 @@
 
         <!-- Main Canvas Area -->
         <main class="workspace">
+            <button class="sidebar-toggle" id="sidebarToggle" title="Hide Sidebar">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </button>
             <div id="dropzone" class="dropzone empty">
                 <div class="dropzone-message">
                     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)"

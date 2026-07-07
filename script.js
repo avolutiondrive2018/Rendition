@@ -10,6 +10,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let highestZIndex = 10;
 
+    // Sidebar Toggle
+    const sidebar = document.querySelector('.sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const svgCollapse = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>`;
+    const svgExpand = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>`;
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            if (sidebar.classList.contains('collapsed')) {
+                sidebarToggle.innerHTML = svgExpand;
+                sidebarToggle.setAttribute('title', 'Show Sidebar');
+            } else {
+                sidebarToggle.innerHTML = svgCollapse;
+                sidebarToggle.setAttribute('title', 'Hide Sidebar');
+            }
+        });
+    }
+
     function bringToFront(wrapper) {
         highestZIndex++;
         wrapper.style.zIndex = highestZIndex;
@@ -128,6 +146,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (shapeType === 'text') {
             img.style.background = 'transparent';
             img.style.boxShadow = 'none';
+        } else if (shapeType === 'arrow' || shapeType === 'dimension') {
+            img.style.background = 'transparent';
+            img.style.boxShadow = 'none';
         }
 
         // Add grid overlay only to standard colored shapes
@@ -193,6 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Drag handle (Mouse)
             hndl.addEventListener('mousedown', (e) => {
+                if (container.classList.contains('locked')) return;
                 e.stopPropagation();
                 e.preventDefault();
                 document.querySelectorAll('.warp-container').forEach(c => c.classList.remove('active'));
@@ -221,6 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Drag handle (Touch)
             hndl.addEventListener('touchstart', (e) => {
+                if (container.classList.contains('locked')) return;
                 e.stopPropagation();
                 e.preventDefault();
                 document.querySelectorAll('.warp-container').forEach(c => c.classList.remove('active'));
@@ -258,6 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Mouse Drag Move
         btnMove.addEventListener('mousedown', (e) => {
+            if (container.classList.contains('locked')) return;
             e.stopPropagation();
             e.preventDefault();
             document.querySelectorAll('.warp-container').forEach(c => c.classList.remove('active'));
@@ -286,6 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Touch Drag Move
         btnMove.addEventListener('touchstart', (e) => {
+            if (container.classList.contains('locked')) return;
             e.stopPropagation();
             e.preventDefault();
             document.querySelectorAll('.warp-container').forEach(c => c.classList.remove('active'));
@@ -321,11 +346,34 @@ document.addEventListener('DOMContentLoaded', () => {
         container.appendChild(btnDelete);
 
         const deleteContainer = (e) => {
+            if (container.classList.contains('locked')) return;
             e.stopPropagation();
             container.remove();
         };
         btnDelete.addEventListener('click', deleteContainer);
         btnDelete.addEventListener('touchstart', deleteContainer);
+
+        // Lock button
+        const svgUnlocked = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>';
+        const svgLocked  = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>';
+        const btnLock = document.createElement('div');
+        btnLock.className = 'warp-lock';
+        btnLock.innerHTML = svgUnlocked;
+        container.appendChild(btnLock);
+
+        const toggleLock = (e) => {
+            e.stopPropagation();
+            container.classList.toggle('locked');
+            if (container.classList.contains('locked')) {
+                btnLock.innerHTML = svgLocked;
+                container.classList.remove('active');
+            } else {
+                btnLock.innerHTML = svgUnlocked;
+                container.classList.add('active');
+            }
+        };
+        btnLock.addEventListener('click', toggleLock);
+        btnLock.addEventListener('touchstart', toggleLock);
 
         canvas.appendChild(container);
 
@@ -395,11 +443,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const midX = (p0.x + p1.x) / 2;
                 const midY = (p0.y + p1.y) / 2;
 
-                btnMove.style.left = midX + 'px';
-                btnMove.style.top = (midY - 32) + 'px';
+                // Move on the left, Lock to the right of Move, Delete below Move
+                btnMove.style.left = (midX - 20) + 'px';
+                btnMove.style.top = (midY - 36) + 'px';
+
+                btnLock.style.left = (midX + 20) + 'px';
+                btnLock.style.top = (midY - 36) + 'px';
 
                 btnDelete.style.left = midX + 'px';
-                btnDelete.style.top = (midY + 32) + 'px';
+                btnDelete.style.top = (midY + 36) + 'px';
             } else {
                 // Apply transform to image (4 points perspective warp)
                 const H = getTransform(srcPts, dstPts);
@@ -419,11 +471,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     sumX += dstPts[i].x;
                     sumY += dstPts[i].y;
                 }
-                btnMove.style.left = (sumX / 4) + 'px';
-                btnMove.style.top = (sumY / 4 - 32) + 'px';
+                btnMove.style.left = (sumX / 4 - 20) + 'px';
+                btnMove.style.top = (sumY / 4 - 36) + 'px';
+
+                btnLock.style.left = (sumX / 4 + 20) + 'px';
+                btnLock.style.top = (sumY / 4 - 36) + 'px';
 
                 btnDelete.style.left = (sumX / 4) + 'px';
-                btnDelete.style.top = (sumY / 4 + 32) + 'px';
+                btnDelete.style.top = (sumY / 4 + 36) + 'px';
             }
         }
 

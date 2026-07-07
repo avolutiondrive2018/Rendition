@@ -34,6 +34,8 @@ body {
 /* Sidebar */
 .sidebar {
     width: 320px;
+    min-width: 320px;
+    flex-shrink: 0;
     background: var(--sidebar-bg);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
@@ -44,6 +46,16 @@ body {
     gap: 32px;
     z-index: 10;
     box-shadow: 4px 0 24px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s ease;
+}
+
+.sidebar.collapsed {
+    margin-left: -320px;
+    box-shadow: none;
+    border-right-color: transparent;
 }
 
 .logo {
@@ -410,4 +422,105 @@ body {
 
 .warp-container:not(.active) .warp-editable-text.text-only {
     background: transparent;
+}
+
+/* Workspace fills remaining space */
+.workspace {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+}
+
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(30, 41, 59, 0.9);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 50;
+    transition: background-color 0.2s, transform 0.15s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.sidebar-toggle:hover {
+    background: var(--brand-primary);
+    transform: scale(1.08);
+}
+
+/* Warp Lock Button */
+.warp-lock {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #64748b;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 11;
+    transform: translate(-50%, -50%) translateZ(10px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: opacity 0.2s, background-color 0.2s;
+    border: 2px solid white;
+}
+
+.warp-lock:hover {
+    background-color: #475569;
+}
+
+.warp-container.active .warp-lock,
+.warp-container:hover .warp-lock {
+    opacity: 1;
+}
+
+/* When locked: keep lock icon visible but hide other controls */
+.warp-container.locked .warp-lock {
+    opacity: 0.85;
+    background: #3b82f6;
+}
+
+.warp-container.locked:hover .warp-lock,
+.warp-container.locked.active .warp-lock {
+    opacity: 1;
+}
+
+.warp-container.locked .warp-handle,
+.warp-container.locked .warp-move,
+.warp-container.locked .warp-delete {
+    display: none !important;
+}
+
+/* Hide all controls (including lock) during capture */
+.warp-container.hide-controls .warp-handle,
+.warp-container.hide-controls .warp-move,
+.warp-container.hide-controls .warp-delete,
+.warp-container.hide-controls .warp-lock {
+    display: none !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+    .sidebar {
+        width: 280px;
+        min-width: 280px;
+        padding: 16px;
+        gap: 20px;
+    }
+    .sidebar.collapsed {
+        margin-left: -280px;
+    }
 }
